@@ -1,0 +1,70 @@
+/* Prescription management page */
+.prescription-notice{display:flex;align-items:flex-start;gap:12px;padding:15px 17px;margin-bottom:22px;border:1px solid #ead9b7;border-radius:11px;background:#fffaf0;color:#765a2c}
+.prescription-notice p{margin:0;font-size:12px;line-height:2}
+.notice-mark{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;border-radius:50%;background:#f6e6c6;color:#805c20;font-weight:800}
+.prescription-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;align-items:start}
+.prescription-panel,.result-panel{min-width:0;background:#fff;border:1px solid #e1e9e3;border-radius:13px;padding:21px;box-shadow:0 3px 14px rgba(38,75,61,.035)}
+.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.panel-heading h2{font-size:18px;margin:0 0 6px;color:#263b36}
+.panel-heading p{font-size:12px;color:#74877e;margin:0;line-height:1.8}
+.panel-icon{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:10px;background:#e0f2e9;color:#287d70;font-size:21px}
+.prescription-form{display:grid;gap:9px}
+.prescription-form label,.history-filter label{font-size:12px;font-weight:600;color:#425e58;margin-top:4px}
+.prescription-form label span{color:#bd6268}
+.prescription-form input,.prescription-form select,.prescription-form textarea,.history-filter select{width:100%;min-width:0;font:inherit;color:#263b36;background:#fff;border:1px solid #dce7e0;border-radius:8px;padding:10px 12px;min-height:41px}
+.prescription-form textarea{resize:vertical;line-height:1.8}
+.prescription-form input:focus,.prescription-form select:focus,.prescription-form textarea:focus,.history-filter select:focus{outline:2px solid #b9ddce;border-color:#287d70}
+.field-hint{font-size:11px;color:#829188;margin:-3px 0 6px}
+.items-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:16px;border-top:1px solid #edf2ee}
+.items-heading h3{font-size:15px;margin:0 0 5px}
+.items-heading p{font-size:11px;color:#74877e;margin:0}
+.secondary-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 12px;background:#f4faf6;color:#286c5f;border:1px solid #cfe5d9;border-radius:8px;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+.secondary-btn:hover{background:#e8f4ed}
+.secondary-btn:disabled,.primary-btn:disabled,.refresh-btn:disabled{opacity:.55;cursor:not-allowed}
+.prescription-items{display:grid;gap:13px}
+.prescription-item{min-width:0;border:1px solid #dfe9e2;border-radius:10px;padding:14px;display:grid;gap:9px;margin:0}
+.prescription-item legend{font-size:13px;font-weight:700;color:#2c5148;padding:0 4px}
+.item-title-row{display:flex;justify-content:space-between;align-items:center}
+.item-title-row legend{float:right}
+.remove-item-btn{border:1px solid #f0d1cf;background:#fff7f6;color:#b42318;border-radius:7px;padding:5px 9px;font:inherit;font-size:11px;cursor:pointer}
+.item-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item-fields>div{display:grid;gap:6px;min-width:0}
+.item-fields label,.prescription-item>label{font-size:11px;font-weight:600;color:#61766d}
+.form-actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:8px}
+.form-message{display:none;margin:5px 0;color:#b42318;background:#fff0ee;border-radius:8px;padding:10px;font-size:12px;line-height:1.8}
+.form-message.show{display:block}
+.history-filter{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:end}
+.history-filter label{grid-column:1/-1}
+.history-content{margin-top:17px;display:grid;gap:12px}
+.empty-state{padding:25px 15px;text-align:center;border:1px dashed #d8e5dc;border-radius:10px;color:#7c8d84;font-size:12px;line-height:1.9}
+.history-card{border:1px solid #e1e9e3;border-radius:10px;padding:14px;background:#fff}
+.history-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.history-card-head strong{font-size:13px;color:#2d4943}
+.history-date{font-size:11px;color:#829188;margin-top:5px}
+.status-pill{display:inline-block;border-radius:20px;padding:4px 9px;font-size:10px;background:#e2f6e9;color:#167341;white-space:nowrap}
+.status-pill.cancelled{background:#fff0ee;color:#b42318}
+.status-pill.completed{background:#eaf0ff;color:#3c5794}
+.history-items{display:grid;gap:7px;margin:10px 0}
+.history-drug{background:#f7faf8;border-radius:7px;padding:9px 10px;font-size:12px;line-height:1.8;color:#425e58}
+.history-drug strong{color:#2d4943}
+.history-actions{display:flex;justify-content:flex-end}
+.history-actions button{font:inherit;font-size:11px;border:1px solid #dce7e0;border-radius:7px;padding:7px 10px;background:#fff;cursor:pointer;color:#286c5f}
+.result-panel{margin-top:22px}
+.result-panel[hidden]{display:none}
+.result-meta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.meta-chip{padding:7px 10px;border-radius:8px;background:#f4faf6;color:#425e58;font-size:11px}
+.interaction-list{display:grid;gap:10px}
+.interaction-card{border:1px solid #e1e9e3;border-radius:10px;padding:13px}
+.interaction-card.found{border-color:#efc5c1;background:#fffafa}
+.interaction-card.safe{background:#f8fbf9}
+.interaction-pair{font-weight:700;font-size:13px;color:#2d4943;line-height:1.8;margin-bottom:7px}
+.severity{display:inline-block;border-radius:20px;padding:4px 9px;font-size:10px;margin-bottom:7px}
+.severity.high,.severity.contraindicated{background:#fee4e2;color:#b42318}
+.severity.moderate{background:#fff0cf;color:#8b5e00}
+.severity.low{background:#e2f6e9;color:#167341}
+.interaction-card p{font-size:12px;line-height:1.9;color:#5e7068;margin:5px 0}
+.result-disclaimer{font-size:11px;line-height:1.9;color:#7a6a48;background:#fffaf0;padding:11px;border-radius:8px;margin-top:13px}
+.toast{position:fixed;bottom:24px;left:24px;z-index:60;background:#263b36;color:#fff;padding:12px 18px;border-radius:9px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s;max-width:min(90vw,440px);font-size:12px}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1050px){.prescription-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.prescription-panel,.result-panel{padding:14px}.item-fields{grid-template-columns:1fr}.history-filter{grid-template-columns:1fr}.form-actions{flex-direction:column}.form-actions button{width:100%}.panel-heading{align-items:flex-start}.prescription-notice{padding:12px}}

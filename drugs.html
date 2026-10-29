@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6faf7" />
+    <title>مدیریت داروها | DrugSafe</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/drugs.css" />
+
+    <script src="./js/config.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/drugs.js" defer></script>
+  </head>
+
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <a href="index.html" class="brand">
+          <span class="brand-icon">D</span>
+          <span>
+            <strong>DrugSafe</strong>
+            <small>مدیریت اطلاعات دارویی</small>
+          </span>
+        </a>
+
+        <div class="nav-label">منوی اصلی</div>
+
+        <nav class="navigation">
+          <a href="index.html" class="nav-item"> <span>▦</span> داشبورد </a>
+
+          <a href="drugs.html" class="nav-item active">
+            <span>✚</span> مدیریت داروها
+          </a>
+
+          <a href="interactions.html" class="nav-item">
+            <span>⇄</span> تعاملات دارویی
+          </a>
+
+          <a href="check.html" class="nav-item">
+            <span>⌕</span> بررسی داروها
+          </a>
+                  <a href="customers.html" class="nav-item"><span>♧</span> مدیریت مشتریان</a>
+                  <a href="prescriptions.html" class="nav-item"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item"><span>♙</span> مدیریت کاربران</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="status-dot" id="serverDot"></span>
+            <span>اتصال به سرور</span>
+            <strong id="serverStatus">در حال بررسی</strong>
+          <button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">مدیریت اطلاعات دارویی</div>
+            <h1>مدیریت داروها</h1>
+            <p class="subtitle">داروها را ثبت، جست‌وجو و مدیریت کن.</p>
+          </div>
+
+          <button class="primary-btn" id="addDrugBtn" type="button">
+            <span aria-hidden="true">＋</span>
+            افزودن داروی جدید
+          </button>
+        </header>
+
+        <section class="drugs-summary">
+          <div class="summary-icon">▤</div>
+          <div>
+            <span class="summary-label">مجموع نتایج</span>
+            <strong id="totalDrugs">—</strong>
+          </div>
+          <div class="summary-note">فهرست داروهای ثبت‌شده</div>
+        </section>
+
+        <section class="drugs-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>فهرست داروها</h2>
+              <p>جست‌وجو و فیلتر اطلاعات ثبت‌شده</p>
+            </div>
+            <button class="secondary-btn" id="refreshBtn" type="button">
+              ↻ بروزرسانی
+            </button>
+          </div>
+
+          <form id="filtersForm" class="filters">
+            <div class="field search-field">
+              <label for="searchInput">جست‌وجو</label>
+              <input
+                id="searchInput"
+                name="search"
+                type="search"
+                maxlength="150"
+                placeholder="نام دارو، نام تجاری یا ماده مؤثره..."
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="field">
+              <label for="brandFilter">نام تجاری</label>
+              <input
+                id="brandFilter"
+                name="brandName"
+                type="text"
+                maxlength="150"
+                placeholder="نام برند"
+              />
+            </div>
+
+            <div class="field">
+              <label for="ingredientFilter">ماده مؤثره</label>
+              <input
+                id="ingredientFilter"
+                name="activeIngredient"
+                type="text"
+                maxlength="100"
+                placeholder="ماده مؤثره"
+              />
+            </div>
+
+            <div class="field">
+              <label for="formFilter">شکل دارویی</label>
+              <input
+                id="formFilter"
+                name="dosageForm"
+                type="text"
+                maxlength="50"
+                placeholder="مثلاً tablet"
+              />
+            </div>
+
+            <div class="field">
+              <label for="statusFilter">وضعیت</label>
+              <select id="statusFilter" name="isActive">
+                <option value="">همه وضعیت‌ها</option>
+                <option value="true">فعال</option>
+                <option value="false">غیرفعال</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="sortBy">مرتب‌سازی بر اساس</label>
+              <select id="sortBy" name="sortBy">
+                <option value="createdAt">تاریخ ثبت</option>
+                <option value="genericName">نام ژنریک</option>
+                <option value="brandName">نام تجاری</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="sortOrder">ترتیب</label>
+              <select id="sortOrder" name="sortOrder">
+                <option value="DESC">نزولی</option>
+                <option value="ASC">صعودی</option>
+              </select>
+            </div>
+
+            <div class="filter-actions">
+              <button class="primary-btn filter-submit" type="submit">
+                اعمال فیلتر
+              </button>
+              <button class="secondary-btn" id="clearFiltersBtn" type="button">
+                پاک‌کردن
+              </button>
+            </div>
+          </form>
+
+          <div class="table-meta">
+            <span id="resultsText">در حال دریافت اطلاعات...</span>
+            <div class="page-size">
+              <label for="pageSize">تعداد در صفحه</label>
+              <select id="pageSize">
+                <option value="10">۱۰</option>
+                <option value="20">۲۰</option>
+                <option value="50">۵۰</option>
+                <option value="100">۱۰۰</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>نام ژنریک</th>
+                  <th>نام تجاری</th>
+                  <th>ماده مؤثره</th>
+                  <th>قدرت دارو</th>
+                  <th>شکل دارویی</th>
+                  <th>وضعیت</th>
+                  <th>تاریخ ثبت</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="drugsTableBody">
+                <tr>
+                  <td colspan="8" class="table-message">
+                    در حال بارگذاری داروها...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="secondary-btn" id="prevPageBtn" type="button">
+              قبلی
+            </button>
+            <span id="pageInfo">صفحه ۱ از ۱</span>
+            <button class="secondary-btn" id="nextPageBtn" type="button">
+              بعدی
+            </button>
+          </div>
+        </section>
+
+        <footer class="footer">DrugSafe · مدیریت اطلاعات دارویی</footer>
+      </main>
+    </div>
+
+    <!-- فرم ثبت و ویرایش دارو -->
+    <div class="modal-backdrop" id="drugModal" hidden>
+      <section
+        class="drug-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <div class="modal-heading">
+          <div>
+            <span class="modal-eyebrow">اطلاعات دارویی</span>
+            <h2 id="modalTitle">ثبت داروی جدید</h2>
+          </div>
+          <button
+            class="modal-close"
+            id="closeModalBtn"
+            type="button"
+            aria-label="بستن"
+          >
+            ×
+          </button>
+        </div>
+
+        <form id="drugForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="genericName">نام ژنریک <span>*</span></label>
+              <input
+                id="genericName"
+                name="genericName"
+                type="text"
+                minlength="2"
+                maxlength="150"
+                required
+                placeholder="نام اصلی دارو"
+              />
+            </div>
+
+            <div class="field">
+              <label for="brandName">نام تجاری</label>
+              <input
+                id="brandName"
+                name="brandName"
+                type="text"
+                maxlength="150"
+                placeholder="نام برند"
+              />
+            </div>
+
+            <div class="field">
+              <label for="activeIngredient">ماده مؤثره</label>
+              <input
+                id="activeIngredient"
+                name="activeIngredient"
+                type="text"
+                maxlength="100"
+                placeholder="ماده مؤثره"
+              />
+            </div>
+
+            <div class="field">
+              <label for="strength">قدرت یا غلظت</label>
+              <input
+                id="strength"
+                name="strength"
+                type="text"
+                maxlength="100"
+                placeholder="مثلاً 100 mg"
+              />
+            </div>
+
+            <div class="field">
+              <label for="dosageForm">شکل دارویی</label>
+              <input
+                id="dosageForm"
+                name="dosageForm"
+                type="text"
+                maxlength="50"
+                placeholder="مثلاً tablet"
+              />
+            </div>
+
+            <div class="field">
+              <label for="isActive">وضعیت</label>
+              <select id="isActive" name="isActive">
+                <option value="true">فعال</option>
+                <option value="false">غیرفعال</option>
+              </select>
+            </div>
+
+            <div class="field full-width">
+              <label for="description">توضیحات</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="3"
+                placeholder="توضیحات تکمیلی درباره دارو..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="secondary-btn" id="cancelModalBtn" type="button">
+              انصراف
+            </button>
+            <button class="primary-btn" id="saveDrugBtn" type="submit">
+              ذخیره دارو
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

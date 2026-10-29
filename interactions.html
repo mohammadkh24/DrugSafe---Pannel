@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>تعاملات دارویی | DrugSafe</title>
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/interactions.css" />
+
+  <script>
+    window.API_BASE_URL = 'http://localhost:3000';
+  </script>
+
+  <script src="./js/auth.js"></script>
+  <script src="./js/interactions.js" defer></script>
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- سایدبار مشترک DrugSafe -->
+    <aside class="sidebar">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">D</span>
+        <span>
+          <strong>DrugSafe</strong>
+          <small>مدیریت اطلاعات دارویی</small>
+        </span>
+      </a>
+
+      <div class="nav-label">منوی اصلی</div>
+
+      <nav class="navigation">
+        <a href="index.html" class="nav-item">
+          <span>▦</span>
+          داشبورد
+        </a>
+
+        <a href="drugs.html" class="nav-item">
+          <span>✚</span>
+          مدیریت داروها
+        </a>
+
+        <a href="interactions.html" class="nav-item active">
+          <span>⇄</span>
+          تعاملات دارویی
+        </a>
+
+        <a href="check.html" class="nav-item">
+          <span>⌕</span>
+          بررسی داروها
+        </a>
+                <a href="customers.html" class="nav-item"><span>♧</span> مدیریت مشتریان</a>
+                <a href="prescriptions.html" class="nav-item"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item"><span>♙</span> مدیریت کاربران</a>
+        </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot" id="serverDot"></span>
+        <span>اتصال به سرور</span>
+        <strong id="serverStatus">در حال بررسی</strong>
+      <button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button>
+      </div>
+    </aside>
+
+    <!-- محتوای اصلی صفحه -->
+    <main class="main-content">
+
+      <header class="page-header">
+        <div>
+          <h1>تعاملات دارویی</h1>
+          <p>بررسی و مدیریت تداخلات احتمالی بین داروها</p>
+        </div>
+
+        <button
+          type="button"
+          class="btn-primary"
+          id="addInteractionBtn"
+        >
+          + ثبت تعامل جدید
+        </button>
+      </header>
+
+      <!-- آمار -->
+      <section class="interaction-stats">
+
+        <article class="stat-card">
+          <div class="stat-info">
+            <span>کل تعاملات</span>
+            <strong id="totalInteractions">۰</strong>
+          </div>
+          <span class="stat-icon">⇄</span>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-info">
+            <span>تعاملات پرخطر</span>
+            <strong id="highRiskInteractions">۰</strong>
+          </div>
+          <span class="stat-icon danger">!</span>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-info">
+            <span>تعاملات با خطر متوسط</span>
+            <strong id="moderateRiskInteractions">۰</strong>
+          </div>
+          <span class="stat-icon warning">⚠</span>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-info">
+            <span>تعاملات کم‌خطر</span>
+            <strong id="lowRiskInteractions">۰</strong>
+          </div>
+          <span class="stat-icon success">✓</span>
+        </article>
+
+      </section>
+
+      <!-- جست‌وجو و فیلتر -->
+      <section class="interaction-toolbar">
+        <div class="search-box">
+          <input
+            type="search"
+            id="interactionSearch"
+            placeholder="جست‌وجوی نام دارو یا توضیحات..."
+          />
+        </div>
+
+        <select id="severityFilter">
+          <option value="">تمام سطوح خطر</option>
+          <option value="HIGH">خطر بالا</option>
+          <option value="MODERATE">خطر متوسط</option>
+          <option value="LOW">خطر پایین</option>
+        </select>
+
+        <button
+          type="button"
+          class="btn-secondary"
+          id="refreshInteractionsBtn"
+        >
+          بروزرسانی
+        </button>
+      </section>
+
+      <!-- جدول تعاملات -->
+      <section class="interaction-table-card">
+        <div class="section-header">
+          <div>
+            <h2>فهرست تعاملات</h2>
+            <p>تعاملات ثبت‌شده در سامانه</p>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="interaction-table">
+            <thead>
+              <tr>
+                <th>ردیف</th>
+                <th>داروی اول</th>
+                <th>داروی دوم</th>
+                <th>سطح خطر</th>
+                <th>توضیحات</th>
+                <th>عملیات</th>
+              </tr>
+            </thead>
+
+            <tbody id="interactionsTableBody">
+              <tr>
+                <td colspan="6" class="table-message">
+                  در حال دریافت اطلاعات...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="interactionMessage" class="interaction-message"></div>
+      </section>
+
+      
+<!-- فرم ثبت و ویرایش تعامل -->
+<div class="interaction-modal" id="interactionModal" aria-hidden="true">
+    <div class="interaction-modal-backdrop" data-close-modal></div>
+  
+    <section
+      class="interaction-modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="interactionModalTitle"
+    >
+      <div class="interaction-modal-header">
+        <div>
+          <h2 id="interactionModalTitle">ثبت تعامل جدید</h2>
+          <p>اطلاعات تعامل بین دو دارو را وارد کنید.</p>
+        </div>
+  
+        <button
+          type="button"
+          class="interaction-modal-close"
+          id="closeInteractionModal"
+          aria-label="بستن پنجره"
+        >&times;</button>
+      </div>
+  
+      <form id="interactionForm">
+        <div class="interaction-form-grid">
+          <div class="form-group">
+            <label for="drugAId">داروی اول</label>
+            <select id="drugAId" name="drugAId" required>
+              <option value="">در حال دریافت داروها...</option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="drugBId">داروی دوم</label>
+            <select id="drugBId" name="drugBId" required>
+              <option value="">در حال دریافت داروها...</option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="interactionSeverity">سطح خطر</label>
+            <select
+              id="interactionSeverity"
+              name="severity"
+              required
+            >
+              <option value="LOW">خطر پایین</option>
+              <option value="MODERATE">خطر متوسط</option>
+              <option value="HIGH">خطر بالا</option>
+            </select>
+          </div>
+  
+          <div class="form-group full-width">
+            <label for="interactionDescription">توضیحات تعامل</label>
+            <textarea
+              id="interactionDescription"
+              name="description"
+              rows="4"
+              minlength="2"
+              maxlength="2000"
+              placeholder="توضیحات مربوط به تعامل را وارد کنید..."
+              required
+            ></textarea>
+          </div>
+  
+          <div class="form-group full-width">
+            <label for="interactionRecommendation">
+              توصیه تکمیلی (اختیاری)
+            </label>
+            <textarea
+              id="interactionRecommendation"
+              name="recommendation"
+              rows="3"
+              maxlength="2000"
+              placeholder="توصیه تکمیلی را وارد کنید..."
+            ></textarea>
+          </div>
+        </div>
+  
+        <div
+          id="interactionFormMessage"
+          class="interaction-form-message"
+          role="status"
+          aria-live="polite"
+        ></div>
+  
+        <div class="interaction-form-actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            id="cancelInteractionForm"
+          >انصراف</button>
+  
+          <button
+            type="submit"
+            class="btn-primary"
+            id="submitInteractionBtn"
+          >ثبت تعامل</button>
+        </div>
+      </form>
+    </section>
+  </div>
+  
+
+    </main>
+  </div>
+</body>
+</html>

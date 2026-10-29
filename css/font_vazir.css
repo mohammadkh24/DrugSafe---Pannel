@@ -1,0 +1,28 @@
+
+/* فونت معمولی */
+@font-face {
+    font-family: vazir;
+    src: url("../font/vazir/Vazir.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* فونت نیمه‌ضخیم */
+  @font-face {
+    font-family: vazir;
+    src: url("../font/vazir/Vazir-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* فونت ضخیم */
+  @font-face {
+    font-family: vazir;
+    src: url("../font/vazir/Vazir-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  

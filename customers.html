@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6faf7" />
+  <title>DrugSafe | مدیریت مشتریان</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/customers.css" />
+  <script src="./js/config.js"></script>
+  <script src="./js/auth.js"></script>
+  <script src="./js/customers.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand"><span class="brand-icon">D</span><span><strong>DrugSafe</strong><small>مدیریت اطلاعات دارویی</small></span></a>
+    <div class="nav-label">منوی اصلی</div>
+    <nav class="navigation">
+      <a href="index.html" class="nav-item"><span>▦</span> داشبورد</a>
+      <a href="drugs.html" class="nav-item"><span>✚</span> مدیریت داروها</a>
+      <a href="interactions.html" class="nav-item"><span>⇄</span> تعاملات دارویی</a>
+      <a href="check.html" class="nav-item"><span>⌕</span> بررسی داروها</a>
+      <a href="customers.html" class="nav-item active" aria-current="page"><span>♧</span> مدیریت مشتریان</a>
+      <a href="prescriptions.html" class="nav-item"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item"><span>♙</span> مدیریت کاربران</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span><span>حساب کاربری</span>
+      <strong id="currentUserName">کاربر واردشده</strong>
+      <button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">پرونده‌های داروخانه</p>
+        <h1>مدیریت مشتریان</h1>
+        <p class="subtitle">ثبت و مدیریت اطلاعات مشتریان و پرونده‌های آن‌ها</p>
+      </div>
+      <button class="primary-btn" id="addCustomerBtn" type="button">＋ ثبت مشتری جدید</button>
+    </header>
+
+    <section class="customer-summary">
+      <article><span class="summary-label">کل مشتریان نتیجه</span><strong id="customersTotal">—</strong></article>
+      <article><span class="summary-label">مشتریان فعال در صفحه</span><strong id="customersActive">—</strong></article>
+      <article><span class="summary-label">مشتریان غیرفعال در صفحه</span><strong id="customersInactive">—</strong></article>
+    </section>
+
+    <section class="section customers-panel">
+      <div class="panel-heading">
+        <div><h2>فهرست مشتریان</h2><p>جست‌وجو بر اساس نام، شماره تماس یا کد ملی</p></div>
+        <button class="refresh-btn" id="refreshBtn" type="button">↻ تازه‌سازی</button>
+      </div>
+      <form id="filtersForm" class="customers-filters">
+        <input id="searchInput" type="search" maxlength="150" placeholder="نام، شماره تماس یا کد ملی..." autocomplete="off" />
+        <select id="statusFilter" aria-label="وضعیت پرونده">
+          <option value="">همه وضعیت‌ها</option><option value="true">فعال</option><option value="false">غیرفعال</option>
+        </select>
+        <select id="pageSize" aria-label="تعداد در صفحه">
+          <option value="10">۱۰ مورد</option><option value="20">۲۰ مورد</option><option value="50">۵۰ مورد</option>
+        </select>
+        <button class="refresh-btn" type="submit">اعمال فیلتر</button>
+      </form>
+      <div class="table-wrap">
+        <table class="customers-table">
+          <thead><tr><th>نام و نام خانوادگی</th><th>شماره تماس</th><th>کد ملی</th><th>تاریخ تولد</th><th>وضعیت</th><th>تاریخ ثبت</th><th>عملیات</th></tr></thead>
+          <tbody id="customersTableBody"><tr><td colspan="7" class="table-empty">در حال دریافت اطلاعات...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="customers-pagination">
+        <span id="pageInfo">صفحه ۱</span>
+        <div><button id="prevPageBtn" class="refresh-btn" type="button">قبلی</button><button id="nextPageBtn" class="refresh-btn" type="button">بعدی</button></div>
+      </div>
+    </section>
+    <footer class="footer"><span>DrugSafe</span><span>مدیریت پرونده‌های مشتریان</span></footer>
+  </main>
+</div>
+
+<div id="customerModal" class="modal-backdrop" hidden>
+  <section class="customer-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-heading">
+      <div><h2 id="modalTitle">ثبت مشتری جدید</h2><p>اطلاعات مشتری را وارد کنید.</p></div>
+      <button id="closeModalBtn" class="icon-btn" type="button" aria-label="بستن">×</button>
+    </div>
+    <form id="customerForm">
+      <label for="customerFullName">نام و نام خانوادگی <span>*</span></label>
+      <input id="customerFullName" name="fullName" required minlength="3" maxlength="150" autocomplete="name" />
+      <label for="customerPhone">شماره تماس <span>*</span></label>
+      <input id="customerPhone" name="phone" type="tel" required pattern="09[0-9]{9}" maxlength="11" placeholder="09123456789" autocomplete="tel" />
+      <label for="customerNationalCode">کد ملی</label>
+      <input id="customerNationalCode" name="nationalCode" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="۱۰ رقم، اختیاری" />
+      <label for="customerBirthDate">تاریخ تولد</label>
+      <input id="customerBirthDate" name="birthDate" type="date" />
+      <label for="customerNotes">یادداشت پرونده</label>
+      <textarea id="customerNotes" name="notes" rows="3" maxlength="1000" placeholder="یادداشت‌های ضروری پرونده..."></textarea>
+      <label for="customerIsActive">وضعیت پرونده</label>
+      <select id="customerIsActive" name="isActive"><option value="true">فعال</option><option value="false">غیرفعال</option></select>
+      <p class="privacy-note">اطلاعات پرونده را فقط در حد نیاز ثبت کنید و از واردکردن اطلاعات غیرضروری خودداری کنید.</p>
+      <p id="customerFormMessage" class="form-message" role="alert"></p>
+      <div class="modal-actions">
+        <button id="cancelModalBtn" class="refresh-btn" type="button">انصراف</button>
+        <button id="saveCustomerBtn" class="primary-btn" type="submit">ذخیره مشتری</button>
+      </div>
+    </form>
+  </section>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1120" />
+    <title>DrugSafe | داشبورد</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <a href="index.html" class="brand">
+          <span class="brand-icon">D</span>
+          <span>
+            <strong>DrugSafe</strong>
+            <small>مدیریت اطلاعات دارویی</small>
+          </span>
+        </a>
+
+        <div class="nav-label">منوی اصلی</div>
+
+        <nav class="navigation">
+          <a href="index.html" class="nav-item active">
+            <span>▦</span> داشبورد
+          </a>
+          <a href="drugs.html" class="nav-item">
+            <span>✚</span> مدیریت داروها
+          </a>
+          <a href="interactions.html" class="nav-item">
+            <span>⇄</span> تعاملات دارویی
+          </a>
+          <a href="check.html" class="nav-item">
+            <span>⌕</span> بررسی داروها
+          </a>
+                  <a href="customers.html" class="nav-item"><span>♧</span> مدیریت مشتریان</a>
+                  <a href="prescriptions.html" class="nav-item"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item"><span>♙</span> مدیریت کاربران</a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <span class="status-dot"></span>
+          <span>اتصال به سرور</span>
+          <strong id="serverStatus">در حال بررسی</strong>
+        <button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">پنل مدیریت</p>
+            <h1>داشبورد</h1>
+            <p class="subtitle">نمای کلی اطلاعات ثبت‌شده در داروخانه</p>
+          </div>
+
+          <button class="refresh-btn" id="refreshBtn">↻ به‌روزرسانی</button>
+        </header>
+
+        <section class="welcome">
+          <div>
+            <span class="welcome-label">DRUGSAFE OVERVIEW</span>
+            <h2>به داروخانه خوش آمدی</h2>
+            <p>
+              اطلاعات داروها را مدیریت کن و تعاملات ثبت‌شده را بر اساس داده‌های
+              آزمایشی بررسی کن.
+            </p>
+            <a href="check.html" class="primary-btn">
+              شروع بررسی داروها <span>←</span>
+            </a>
+          </div>
+          <div class="welcome-symbol">✚</div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <div>
+              <h2>آمار کلی</h2>
+              <p>اطلاعات دریافت‌شده از API بک‌اند</p>
+            </div>
+            <span class="live-badge">
+              <span class="status-dot"></span>
+              داده زنده
+            </span>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon blue">✚</span>
+                <span class="stat-caption">بانک اطلاعاتی</span>
+              </div>
+              <p class="stat-title">کل داروها</p>
+              <strong class="stat-value" id="drugsCount">—</strong>
+              <span class="stat-description">داروهای ثبت‌شده</span>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon purple">⇄</span>
+                <span class="stat-caption">بانک اطلاعاتی</span>
+              </div>
+              <p class="stat-title">تعاملات دارویی</p>
+              <strong class="stat-value" id="interactionsCount">—</strong>
+              <span class="stat-description">تعاملات ثبت‌شده</span>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon green">✓</span>
+                <span class="stat-caption">وضعیت سرویس</span>
+              </div>
+              <p class="stat-title">وضعیت API</p>
+              <strong class="stat-value status-value" id="apiStatus">—</strong>
+              <span class="stat-description" id="apiDescription">
+                در انتظار پاسخ سرور
+              </span>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <div>
+              <h2>دسترسی سریع</h2>
+              <p>بخش موردنظر را انتخاب کن</p>
+            </div>
+          </div>
+
+          <div class="quick-grid">
+            <a href="drugs.html" class="quick-card">
+              <span class="quick-icon blue">✚</span>
+              <div>
+                <h3>مدیریت داروها</h3>
+                <p>جست‌وجو، ثبت و ویرایش اطلاعات دارو</p>
+              </div>
+              <span class="quick-arrow">←</span>
+            </a>
+
+            <a href="interactions.html" class="quick-card">
+              <span class="quick-icon purple">⇄</span>
+              <div>
+                <h3>تعاملات دارویی</h3>
+                <p>مدیریت تعاملات ثبت‌شده در سیستم</p>
+              </div>
+              <span class="quick-arrow">←</span>
+            </a>
+
+            <a href="check.html" class="quick-card">
+              <span class="quick-icon green">⌕</span>
+              <div>
+                <h3>بررسی داروها</h3>
+                <p>بررسی جفت‌های دارویی در دیتابیس آزمایشی</p>
+              </div>
+              <span class="quick-arrow">←</span>
+            </a>
+          </div>
+        </section>
+
+        <footer class="footer">
+          <span>DrugSafe</span>
+          <span>نسخه آزمایشی · فقط برای نمایش داده‌های نمونه</span>
+        </footer>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="./js/config.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/dashboard.js"></script>
+  </body>
+</html>

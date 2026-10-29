@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6faf7" />
+  <title>DrugSafe | نسخه‌ها</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/prescriptions.css" />
+  <script src="./js/config.js"></script>
+  <script src="./js/auth.js"></script>
+  <script src="./js/prescriptions.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand"><span class="brand-icon">D</span><span><strong>DrugSafe</strong><small>مدیریت اطلاعات دارویی</small></span></a>
+    <div class="nav-label">منوی اصلی</div>
+    <nav class="navigation">
+      <a href="index.html" class="nav-item"><span>▦</span> داشبورد</a>
+      <a href="drugs.html" class="nav-item"><span>✚</span> مدیریت داروها</a>
+      <a href="interactions.html" class="nav-item"><span>⇄</span> تعاملات دارویی</a>
+      <a href="check.html" class="nav-item"><span>⌕</span> بررسی داروها</a>
+      <a href="customers.html" class="nav-item"><span>♧</span> مدیریت مشتریان</a>
+      <a href="prescriptions.html" class="nav-item active" aria-current="page"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item"><span>♙</span> مدیریت کاربران</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="status-dot" id="serverDot"></span><span>اتصال به سرور</span>
+      <strong id="serverStatus">در حال بررسی</strong>
+      <button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">پرونده‌های داروخانه</p>
+        <h1>نسخه‌ها و سابقه دارویی</h1>
+        <p class="subtitle">ثبت نسخه برای مشتری، بررسی تداخل‌های ثبت‌شده و مشاهده تاریخچه</p>
+      </div>
+      <button class="refresh-btn" id="refreshDataBtn" type="button">↻ بارگذاری دوباره اطلاعات</button>
+    </header>
+
+    <section class="prescription-notice">
+      <span class="notice-mark">!</span>
+      <p>بررسی تداخل بر اساس اطلاعات ثبت‌شده در سامانه انجام می‌شود و جایگزین ارزیابی پزشک یا داروساز نیست. نبود هشدار به معنی بی‌خطر بودن ترکیب داروها نیست.</p>
+    </section>
+
+    <section class="prescription-layout">
+      <article class="prescription-panel">
+        <div class="panel-heading">
+          <div><h2>ثبت نسخه جدید</h2><p>مشتری و اقلام نسخه را وارد کنید.</p></div>
+          <span class="panel-icon">＋</span>
+        </div>
+        <form id="prescriptionForm" class="prescription-form">
+          <label for="prescriptionCustomer">مشتری <span>*</span></label>
+          <select id="prescriptionCustomer" required>
+            <option value="">در حال دریافت مشتریان...</option>
+          </select>
+          <p class="field-hint" id="customerHint">فقط مشتریان فعال قابل انتخاب هستند.</p>
+
+          <label for="prescriptionNotes">یادداشت نسخه</label>
+          <textarea id="prescriptionNotes" rows="2" maxlength="2000" placeholder="یادداشت اختیاری درباره نسخه"></textarea>
+
+          <div class="items-heading">
+            <div><h3>اقلام نسخه</h3><p>حداقل یک دارو و حداکثر ۱۰ دارو</p></div>
+            <button id="addPrescriptionItemBtn" class="secondary-btn" type="button">＋ افزودن دارو</button>
+          </div>
+          <div id="prescriptionItems" class="prescription-items"></div>
+
+          <p id="prescriptionFormMessage" class="form-message" role="alert"></p>
+          <div class="form-actions">
+            <button id="resetPrescriptionBtn" class="refresh-btn" type="button">پاک کردن فرم</button>
+            <button id="savePrescriptionBtn" class="primary-btn" type="submit">ثبت نسخه و بررسی تداخل</button>
+          </div>
+        </form>
+      </article>
+
+      <article class="prescription-panel history-panel">
+        <div class="panel-heading">
+          <div><h2>تاریخچه نسخه‌های مشتری</h2><p>یک مشتری را انتخاب کنید تا نسخه‌های قبلی نمایش داده شوند.</p></div>
+          <span class="panel-icon">◷</span>
+        </div>
+        <div class="history-filter">
+          <label for="historyCustomer">انتخاب مشتری</label>
+          <select id="historyCustomer">
+            <option value="">انتخاب مشتری...</option>
+          </select>
+          <button id="loadHistoryBtn" class="secondary-btn" type="button">نمایش تاریخچه</button>
+        </div>
+        <div id="historyContent" class="history-content">
+          <div class="empty-state">برای مشاهده تاریخچه، یک مشتری انتخاب کنید.</div>
+        </div>
+      </article>
+    </section>
+
+    <section id="createdResultSection" class="result-panel" hidden>
+      <div class="panel-heading">
+        <div><h2>نتیجه ثبت نسخه</h2><p>اطلاعات نسخه و خروجی بررسی تداخل</p></div>
+        <span class="panel-icon">✓</span>
+      </div>
+      <div id="createdResultContent"></div>
+    </section>
+    <footer class="footer"><span>DrugSafe</span><span>مدیریت نسخه‌ها و سوابق دارویی</span></footer>
+  </main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<template id="prescriptionItemTemplate">
+  <fieldset class="prescription-item">
+    <div class="item-title-row">
+      <legend>دارو <span class="item-number"></span></legend>
+      <button class="remove-item-btn" type="button" aria-label="حذف دارو">حذف</button>
+    </div>
+    <label>انتخاب دارو <span>*</span></label>
+    <select class="item-drug" required>
+      <option value="">انتخاب دارو...</option>
+    </select>
+    <div class="item-fields">
+      <div><label>دوز مصرف <span>*</span></label><input class="item-dosage" required maxlength="100" placeholder="مثلاً یک قرص" /></div>
+      <div><label>دفعات مصرف <span>*</span></label><input class="item-frequency" required maxlength="100" placeholder="مثلاً هر ۸ ساعت" /></div>
+      <div><label>مدت مصرف <span>*</span></label><input class="item-duration" required maxlength="100" placeholder="مثلاً ۷ روز" /></div>
+      <div><label>تعداد <span>*</span></label><input class="item-quantity" type="number" required min="1" step="1" value="1" /></div>
+    </div>
+    <label>دستور یا توضیح تکمیلی</label>
+    <input class="item-instructions" maxlength="1000" placeholder="مثلاً بعد از غذا (اختیاری)" />
+  </fieldset>
+</template>
+</body>
+</html>

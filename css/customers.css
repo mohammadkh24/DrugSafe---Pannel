@@ -1,0 +1,50 @@
+/* Customer management page - follows the existing DrugSafe admin style. */
+.customer-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:22px}
+.customer-summary article{background:#fff;border:1px solid #e1e9e3;border-radius:12px;padding:20px}
+.summary-label{display:block;color:#74877e;font-size:12px;margin-bottom:10px}
+.customer-summary strong{font-size:25px;color:#263b36}
+.customers-panel{background:#fff;border:1px solid #e1e9e3;border-radius:13px;padding:20px}
+.panel-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}
+.panel-heading h2{font-size:18px;margin:0 0 6px;color:#263b36}
+.panel-heading p{font-size:12px;color:#74877e;margin:0}
+.customers-filters{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.customers-filters input,.customers-filters select,.customer-modal input,.customer-modal select,.customer-modal textarea{font:inherit;padding:10px 12px;border:1px solid #dce7e0;border-radius:8px;background:#fff;color:#263b36;min-height:40px}
+.customers-filters input{flex:1;min-width:210px}
+.customers-filters select{min-width:130px}
+.customers-table{width:100%;border-collapse:collapse;white-space:nowrap}
+.customers-table th,.customers-table td{text-align:right;padding:13px 11px;border-bottom:1px solid #edf2ee;font-size:12px}
+.customers-table th{color:#74877e;font-weight:600;background:#f8fbf9}
+.customers-table td{color:#425e58}
+.table-empty{text-align:center!important;padding:34px!important;color:#74877e!important;white-space:normal}
+.status-pill{display:inline-block;border-radius:20px;padding:4px 10px;font-size:11px}
+.status-pill.active{background:#e2f6e9;color:#167341}
+.status-pill.inactive{background:#fff0ee;color:#b42318}
+.table-actions{display:flex;gap:7px}
+.table-action{border:1px solid #dce7e0;border-radius:7px;background:#fff;padding:6px 9px;font:inherit;font-size:11px;cursor:pointer}
+.table-action:hover{background:#edf6f0}
+.table-action.danger{color:#b42318}
+.customers-pagination{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:16px;color:#74877e;font-size:12px}
+.customers-pagination>div{display:flex;gap:8px}
+.customers-pagination button:disabled{opacity:.45;cursor:not-allowed}
+.modal-backdrop{position:fixed;inset:0;background:#142a2480;display:grid;place-items:center;padding:18px;z-index:50}
+.modal-backdrop[hidden]{display:none}
+.customer-modal{width:min(100%,560px);max-height:92vh;overflow:auto;background:#fff;border-radius:15px;padding:24px;box-shadow:0 20px 60px #142a2426}
+.modal-heading{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:18px}
+.modal-heading h2{margin:0 0 6px;font-size:20px;color:#263b36}
+.modal-heading p{margin:0;color:#74877e;font-size:12px}
+.icon-btn{border:0;background:#f2f6f3;border-radius:8px;width:32px;height:32px;font-size:22px;cursor:pointer}
+.customer-modal form{display:grid;grid-template-columns:1fr 1fr;gap:9px 14px}
+.customer-modal label{font-size:12px;font-weight:600;margin-top:5px;color:#425e58}
+.customer-modal label span{color:#bd6268}
+.customer-modal input,.customer-modal select,.customer-modal textarea{width:100%;min-width:0}
+.customer-modal textarea{resize:vertical;grid-column:1/-1}
+.customer-modal label[for="customerNotes"],.customer-modal label[for="customerIsActive"],.privacy-note,.form-message,.modal-actions{grid-column:1/-1}
+.privacy-note{font-size:11px;color:#74877e;background:#f7faf8;border-radius:8px;padding:9px 11px;line-height:1.8;margin:4px 0}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:5px}
+.modal-actions .primary-btn{border:0;cursor:pointer}
+.form-message{display:none;margin:4px 0;color:#b42318;background:#fff0ee;border-radius:8px;padding:10px;font-size:12px;line-height:1.8}
+.form-message.show{display:block}
+.toast{position:fixed;bottom:24px;left:24px;z-index:60;background:#263b36;color:#fff;padding:12px 18px;border-radius:9px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s;max-width:min(90vw,440px);font-size:12px}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:900px){.customers-panel{padding:14px}.customer-summary{gap:10px}.customer-summary article{padding:15px}}
+@media(max-width:700px){.customer-summary{grid-template-columns:1fr}.panel-heading{align-items:flex-start}.customers-pagination{align-items:flex-start;flex-direction:column}.customer-modal{padding:18px}.customer-modal form{grid-template-columns:1fr}.customer-modal label,.customer-modal input,.customer-modal select,.customer-modal textarea,.privacy-note,.form-message,.modal-actions{grid-column:1}.customers-filters input{min-width:100%}}

@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>بررسی داروها | DrugSafe</title>
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/check.css" />
+
+  <script>
+    window.API_BASE_URL = 'http://localhost:3000';
+  </script>
+
+  <script src="./js/auth.js"></script>
+  <script src="./js/check.js" defer></script>
+</head>
+
+<body>
+  <div class="app-container">
+
+    <!-- سایدبار مشترک -->
+    <aside class="sidebar">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">D</span>
+        <span>
+          <strong>DrugSafe</strong>
+          <small>مدیریت اطلاعات دارویی</small>
+        </span>
+      </a>
+
+      <div class="nav-label">منوی اصلی</div>
+
+      <nav class="navigation">
+        <a href="index.html" class="nav-item">
+          <span>▦</span>
+          داشبورد
+        </a>
+
+        <a href="drugs.html" class="nav-item">
+          <span>✚</span>
+          مدیریت داروها
+        </a>
+
+        <a href="interactions.html" class="nav-item">
+          <span>⇄</span>
+          تعاملات دارویی
+        </a>
+
+        <a href="check.html" class="nav-item active" aria-current="page">
+          <span>⌕</span>
+          بررسی داروها
+        </a>
+                <a href="customers.html" class="nav-item"><span>♧</span> مدیریت مشتریان</a>
+                <a href="prescriptions.html" class="nav-item"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item"><span>♙</span> مدیریت کاربران</a>
+        </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot" id="serverDot"></span>
+        <span>اتصال به سرور</span>
+        <strong id="serverStatus">در حال بررسی</strong>
+      <button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button>
+      </div>
+    </aside>
+
+    <!-- محتوای اصلی -->
+    <main class="main-content">
+
+      <!-- سربرگ صفحه -->
+      <header class="check-page-header">
+        <div>
+          <div class="page-breadcrumb">
+            <span>DrugSafe</span>
+            <span class="breadcrumb-separator">/</span>
+            <span>بررسی داروها</span>
+          </div>
+
+          <h1>بررسی تداخلات دارویی</h1>
+
+          <p>
+            داروهای موردنظرت رو انتخاب کن تا تداخلات ثبت‌شده بین اون‌ها
+            رو بررسی کنیم.
+          </p>
+        </div>
+
+        <div class="header-icon" aria-hidden="true">⌕</div>
+      </header>
+
+      <!-- هشدار پزشکی -->
+      <section class="medical-notice">
+        <span class="notice-icon" aria-hidden="true">!</span>
+
+        <div>
+          <strong>توجه مهم پزشکی</strong>
+          <p>
+            نتایج این سامانه صرفاً بر اساس اطلاعات ثبت‌شده نمایش داده می‌شوند
+            و جایگزین نظر پزشک یا داروساز نیستند. داروها را بدون مشورت متخصص
+            قطع یا تغییر نده.
+          </p>
+        </div>
+      </section>
+
+      <!-- کارت انتخاب داروها -->
+      <section class="check-card selection-card">
+        <div class="section-heading">
+          <div class="section-heading-icon">✚</div>
+
+          <div>
+            <h2>انتخاب داروها</h2>
+            <p>نام داروها رو جست‌وجو کن و به فهرست اضافه کن.</p>
+          </div>
+        </div>
+
+        <div class="drug-search-area">
+          <label for="drugSearch" class="field-label">
+            جست‌وجوی دارو
+          </label>
+
+          <div class="drug-search-wrapper">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+
+            <input
+              type="search"
+              id="drugSearch"
+              name="drugSearch"
+              placeholder="نام ژنریک یا برند دارو را وارد کن..."
+              autocomplete="off"
+              aria-controls="drugSearchResults"
+            />
+
+            <span class="search-hint">جستجو</span>
+          </div>
+
+          <div
+            id="drugSearchResults"
+            class="drug-search-results"
+            role="listbox"
+            aria-label="نتایج جست‌وجوی دارو"
+            hidden
+          ></div>
+
+          <p class="field-help">
+            برای بررسی تداخل، حداقل دو دارو انتخاب کن.
+          </p>
+        </div>
+
+        <!-- فهرست داروهای انتخاب‌شده -->
+        <div class="selected-drugs-section">
+          <div class="selected-drugs-heading">
+            <h3>داروهای انتخاب‌شده</h3>
+
+            <span class="selected-count">
+              انتخاب‌شده
+            </span>
+          </div>
+
+          <div id="selectedDrugs" class="selected-drugs">
+            <div class="selected-drugs-empty">
+              <span class="empty-icon" aria-hidden="true">＋</span>
+              <strong>هنوز دارویی انتخاب نکرده‌ای</strong>
+              <p>از کادر جست‌وجو داروها رو اضافه کن.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- راهنمای تعداد دارو -->
+        <div class="selection-footer">
+          <div class="selection-hint">
+            <span class="hint-dot"></span>
+            <span>برای شروع بررسی، حداقل دو دارو لازمه.</span>
+          </div>
+
+          <div class="selection-actions">
+            <button
+              type="button"
+              id="resetCheckBtn"
+              class="btn btn-secondary"
+            >
+              پاک‌کردن انتخاب‌ها
+            </button>
+
+            <button
+              type="button"
+              id="checkInteractionsBtn"
+              class="btn btn-primary"
+              disabled
+            >
+              <span aria-hidden="true">⇄</span>
+              بررسی تداخلات
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- بخش نتایج -->
+      <section class="check-card results-card">
+        <div class="section-heading results-heading">
+          <div class="section-heading-icon results-icon">▤</div>
+
+          <div>
+            <h2>نتایج بررسی</h2>
+            <p>تداخلات ثبت‌شده بین داروهای انتخابی در این بخش نمایش داده می‌شوند.</p>
+          </div>
+        </div>
+
+        <!-- خلاصه نتایج؛ توسط JS پر می‌شود -->
+        <div
+          id="resultsSummary"
+          class="results-summary"
+          aria-live="polite"
+        ></div>
+
+        <!-- وضعیت بارگذاری -->
+        <div id="resultsLoading" class="results-loading" hidden>
+          <span class="loading-spinner" aria-hidden="true"></span>
+          <strong>در حال بررسی تداخلات...</strong>
+          <p>لطفاً چند لحظه صبر کن.</p>
+        </div>
+
+        <!-- محتوای نتایج؛ توسط JS پر می‌شود -->
+        <div
+          id="interactionResults"
+          class="interaction-results"
+          aria-live="polite"
+        >
+          <div class="results-placeholder">
+            <div class="placeholder-icon" aria-hidden="true">⇄</div>
+            <h3>آماده بررسی هستیم</h3>
+            <p>
+              بعد از انتخاب حداقل دو دارو و زدن دکمه بررسی،
+              نتایج در این بخش نمایش داده می‌شوند.
+            </p>
+          </div>
+        </div>
+
+        <!-- تلاش مجدد -->
+        <div class="results-footer">
+          <p>
+            اطلاعات نمایش‌داده‌شده به داده‌های ثبت‌شده در سامانه وابسته‌اند.
+          </p>
+
+          <button
+            type="button"
+            id="retryCheckBtn"
+            class="btn btn-text"
+          >
+            ↻ دریافت مجدد اطلاعات
+          </button>
+        </div>
+      </section>
+
+      <!-- راهنمای شدت تداخل -->
+      <section class="severity-guide">
+        <div class="severity-guide-heading">
+          <span class="guide-icon" aria-hidden="true">ⓘ</span>
+          <div>
+            <h2>راهنمای شدت تداخل</h2>
+            <p>معنای سطح‌های شدت ثبت‌شده در سامانه</p>
+          </div>
+        </div>
+
+        <div class="severity-guide-grid">
+          <article class="severity-guide-item">
+            <span class="severity-guide-dot severity-dot-high"></span>
+            <div>
+              <strong>شدید</strong>
+              <p>ممکن است به ارزیابی فوری متخصص نیاز داشته باشد.</p>
+            </div>
+          </article>
+
+          <article class="severity-guide-item">
+            <span class="severity-guide-dot severity-dot-moderate"></span>
+            <div>
+              <strong>متوسط</strong>
+              <p>ممکن است به بررسی، پایش یا تنظیم درمان نیاز داشته باشد.</p>
+            </div>
+          </article>
+
+          <article class="severity-guide-item">
+            <span class="severity-guide-dot severity-dot-low"></span>
+            <div>
+              <strong>خفیف</strong>
+              <p>ممکن است اهمیت بالینی کمتری داشته باشد؛ بررسی تخصصی همچنان مهم است.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer class="check-page-footer">
+        <span>DrugSafe</span>
+        <span>سامانه مدیریت اطلاعات دارویی</span>
+      </footer>
+
+    </main>
+  </div>
+</body>
+</html>

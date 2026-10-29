@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DrugSafe | مدیریت کاربران</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/users.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a href="index.html" class="brand"><span class="brand-icon">D</span><span><strong>DrugSafe</strong><small>مدیریت اطلاعات دارویی</small></span></a>
+    <div class="nav-label">منوی اصلی</div>
+    <nav class="navigation">
+      <a href="index.html" class="nav-item"><span>▦</span> داشبورد</a>
+      <a href="drugs.html" class="nav-item"><span>✚</span> مدیریت داروها</a>
+      <a href="interactions.html" class="nav-item"><span>⇄</span> تعاملات دارویی</a>
+      <a href="check.html" class="nav-item"><span>⌕</span> بررسی داروها</a>
+      <a href="customers.html" class="nav-item"><span>♧</span> مدیریت مشتریان</a>
+      <a href="prescriptions.html" class="nav-item"><span>▤</span> نسخه‌ها</a>
+      <a href="users.html" class="nav-item active"><span>♙</span> مدیریت کاربران</a>
+    </nav>
+    <div class="sidebar-footer"><span class="status-dot"></span><span>حساب کاربری</span><strong id="currentUserName">کاربر واردشده</strong><button id="logoutBtn" class="logout-btn" type="button">خروج از حساب</button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">مدیریت دسترسی</p><h1>مدیریت کاربران</h1><p class="subtitle">ایجاد و مدیریت حساب کارکنان داروخانه</p></div>
+      <button class="primary-btn" id="addUserBtn" type="button">＋ افزودن کاربر</button>
+    </header>
+    <section class="user-summary">
+      <div><span class="summary-label">کل حساب‌ها</span><strong id="usersTotal">—</strong></div>
+      <div><span class="summary-label">حساب‌های فعال</span><strong id="usersActive">—</strong></div>
+      <div><span class="summary-label">حساب‌های غیرفعال</span><strong id="usersInactive">—</strong></div>
+    </section>
+    <section class="section users-panel">
+      <form id="filtersForm" class="users-filters">
+        <input id="searchInput" type="search" placeholder="جست‌وجو در نام یا ایمیل..." minlength="2" />
+        <select id="statusFilter" aria-label="وضعیت حساب"><option value="">همه وضعیت‌ها</option><option value="true">فعال</option><option value="false">غیرفعال</option></select>
+        <select id="pageSize" aria-label="تعداد در صفحه"><option value="10">۱۰ مورد</option><option value="20">۲۰ مورد</option><option value="50">۵۰ مورد</option></select>
+        <button class="refresh-btn" type="submit">اعمال فیلتر</button>
+        <button class="refresh-btn" id="refreshBtn" type="button">↻ تازه‌سازی</button>
+      </form>
+      <div class="table-wrap">
+        <table class="users-table">
+          <thead><tr><th>نام و نام خانوادگی</th><th>ایمیل</th><th>وضعیت</th><th>تاریخ ایجاد</th><th>عملیات</th></tr></thead>
+          <tbody id="usersTableBody"><tr><td colspan="5" class="table-empty">در حال دریافت اطلاعات...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="users-pagination"><span id="pageInfo">صفحه ۱</span><div><button id="prevPageBtn" class="refresh-btn" type="button">قبلی</button><button id="nextPageBtn" class="refresh-btn" type="button">بعدی</button></div></div>
+    </section>
+    <footer class="footer"><span>DrugSafe</span><span>مدیریت حساب‌های کارکنان</span></footer>
+  </main>
+</div>
+<div id="userModal" class="modal-backdrop" hidden>
+  <section class="user-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-heading"><div><h2 id="modalTitle">افزودن کاربر</h2><p>اطلاعات حساب کاربری را وارد کنید.</p></div><button id="closeModalBtn" class="icon-btn" type="button" aria-label="بستن">×</button></div>
+    <form id="userForm">
+      <label for="fullName">نام و نام خانوادگی</label><input id="fullName" name="fullName" required maxlength="150" />
+      <label for="userEmail">ایمیل</label><input id="userEmail" name="email" type="email" required maxlength="255" />
+      <div id="passwordField"><label for="userPassword">رمز عبور اولیه</label><input id="userPassword" name="password" type="password" minlength="8" maxlength="72" autocomplete="new-password" /></div>
+      <label for="isActive">وضعیت حساب</label><select id="isActive" name="isActive"><option value="true">فعال</option><option value="false">غیرفعال</option></select>
+      <p id="userFormMessage" class="form-message" role="alert"></p>
+      <div class="modal-actions"><button id="cancelModalBtn" class="refresh-btn" type="button">انصراف</button><button id="saveUserBtn" class="primary-btn" type="submit">ذخیره کاربر</button></div>
+    </form>
+  </section>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="./js/config.js"></script><script src="./js/auth.js"></script><script src="./js/users.js"></script>
+</body>
+</html>
